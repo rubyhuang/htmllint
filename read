@@ -1,0 +1,92 @@
+修改过的文件 
+node_modules/htllint/lib/issue.js
+function Issue(code, pos, data, linedom) {
+
+    this.line = pos[0];
+
+    this.column = pos[1];
+
+    this.code = code
+
+    this.data = data || {};
+
+    this.linedom = linedom || '';
+
+}
+
+node_modules/htmllint/lib/knife/apply_rules.js
+function addRuleToIssue(issue, ruleName, linedom) {
+
+
+    if (Array.isArray(issue)) {
+
+        issue.forEach(function (issue) {
+
+            addRuleToIssue(issue, ruleName, linedom);
+
+        });
+
+    } else {
+
+        issue.rule = issue.rule || ruleName;
+
+	issue.linedom = linedom || '';
+
+    }
+
+
+}
+
+
+module.exports = {
+
+    applyRules: function (rules, element, opts, linedom) {
+
+        if (!rules) {
+
+            return [];
+
+        }
+
+
+        return lodash.flattenDeep(rules.map(function (rule) {
+
+            var issues = rule.lint.call(rule, element, opts);
+
+
+            addRuleToIssue(issues, rule.name, linedom);
+
+
+            return issues;
+
+        }));
+
+
+    }
+
+};
+
+
+
+node_modules/htmllint/lib/rules/line.js
+return knife.applyRules(subs, line, inlineConfigs.current, line.line);
+
+
+
+安装Ejs模板引擎
+npm install ejs
+
+
+
+var widgetname = "src";
+
+gulp.task('htmlcheck', function() {
+    return gulp.src(widgetname + '/*.html')
+        .pipe(htmllint(	{
+			"reporter": path.join(__dirname, './reports/aa.html'),
+			"filename": widgetname
+		}, htmllint.formatHtml));
+});
+
+
+
