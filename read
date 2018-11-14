@@ -90,3 +90,37 @@ gulp.task('htmlcheck', function() {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+modify1
+gulpfile.js
+
+var widgetname = ["src1", "src2"];
+
+var source = [];
+widgetname.forEach(function(name) {
+	source.push(name + '/*.html');
+});
+
+gulp.task('htmlcheck', function() {
+	return gulp.src(source)
+        .pipe(htmllint(	{
+			"reporter": path.join(__dirname, './reports/aa.html'),
+			"filename": widgetname
+		}, htmllint.formatHtml));
+});
+
+
+
+
+
+
